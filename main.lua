@@ -129,9 +129,9 @@ end
 circle_center:addEventListener( "touch", startDrag )
 ------------------------------------------------------
 ---gameフラグ
-push=null;
-hashi=null;
-var=null;
+push=nill;
+hashi=nill;
+var=nill;
 move_test=0;
 
 ----生成を止める
@@ -146,7 +146,7 @@ local sliderListener = function( event )
 
 	print( "Slider at " .. value .. "%" )
 	move_test=(value-50)/10
-	if(var==null)then
+	if(var==nill)then
 		var=true;
 	end
 end
@@ -255,7 +255,7 @@ function startGame(event)
 		move_test=-0.1
 		push=true
 	end
-	if(hashi==null)then
+	if(hashi==nill)then
 	var=true
 	end
 	hashi=true;

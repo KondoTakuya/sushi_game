@@ -106,7 +106,7 @@ local function startDrag( event )
 	-- Stop current motion, if any
 	event.target:setLinearVelocity( 0, 0 )
 	event.target.angularVelocity = 0
-	
+
 	else if t.isFocus then
 		if "moved" == phase then
 			t.x = event.x - t.x0
@@ -217,16 +217,16 @@ timer.performWithDelay(10, onTimeEvent, 0 )
 function set_next_dish(event)
 	--一定の間隔というルールも作れるかも
 	random_dish()
-	print("dish_num= "..dish_num)
 end
 push=true
 function check_rane(event)
 	if(push==true)then
 		push=false
 
+
 		if(move_test<-0.1)then
 			print(move_test)
-			timer.performWithDelay( 1000+move_test*200, set_next_dish, 1)
+			timer.performWithDelay( 100, set_next_dish, 1)
 		end
 	end
 end
@@ -238,18 +238,16 @@ function set_var(event)
 	end
 	if(var==true)then
 		push=true;
-		var=false
 		hashi=true
 	end
 	if(hashi==stop)then
 		push=false;
 		var=false;
 	end
-
-	check_rane()
 end
 
 timer.performWithDelay( 1000, set_var, 0)
+timer.performWithDelay( 1000, check_rane, 0)
 
 function startGame(event)
 	if(move_test==0)then

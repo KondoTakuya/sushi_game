@@ -7,10 +7,9 @@
 --
 -- Copyright 2013 . All Rights Reserved.
 --
-
-
-
---回転寿司に変更
+	
+--マルチタッチ対応
+system.activate( "multitouch" )
 
 --画面の規定
 display.setStatusBar(display.HiddenStatusBar)
@@ -91,47 +90,47 @@ physics.addBody(rect3, "static")--右
 
 --startDrag CoronaWikiを参考に
 local function startDrag( event )
-	local t = event.target
+		local t = event.target
 
-	local phase = event.phase
-	if "began" == phase then
-		display.getCurrentStage():setFocus( t )
-		t.isFocus = true
--- Store initial position
-t.x0 = event.x - t.x
-t.y0 = event.y - t.y
+		local phase = event.phase
+		if "began" == phase then
+			display.getCurrentStage():setFocus( t )
+			t.isFocus = true
+	-- Store initial position
+	t.x0 = event.x - t.x
+	t.y0 = event.y - t.y
 
--- Make body type temporarily "kinematic" (to avoid gravitional forces)
-event.target.bodyType = "kinematic"
+	-- Make body type temporarily "kinematic" (to avoid gravitional forces)
+	event.target.bodyType = "kinematic"
 
--- Stop current motion, if any
-event.target:setLinearVelocity( 0, 0 )
-event.target.angularVelocity = 0
-else if t.isFocus then
-	if "moved" == phase then
-		t.x = event.x - t.x0
-		t.y = event.y - t.y0
+	-- Stop current motion, if any
+	event.target:setLinearVelocity( 0, 0 )
+	event.target.angularVelocity = 0
+	
+	else if t.isFocus then
+		if "moved" == phase then
+			t.x = event.x - t.x0
+			t.y = event.y - t.y0
 
-	elseif "ended" == phase or "cancelled" == phase then
-		display.getCurrentStage():setFocus( nil )
-		t.isFocus = false
-
--- Switch body type back to "dynamic", unless we've marked this sprite as a platform
-if ( not event.target.isPlatform ) then
-	event.target.bodyType = "dynamic"
-end
-end
-end
--- Stop further propagation of touch event!
-return true
-end
+			elseif "ended" == phase or "cancelled" == phase then
+					display.getCurrentStage():setFocus( nil )
+					t.isFocus = false
+				-- Switch body type back to "dynamic", unless we've marked this sprite as a platform
+				if ( not event.target.isPlatform ) then
+					event.target.bodyType = "dynamic"
+				end
+			end
+		end
+	-- Stop further propagation of touch event!
+		return true
+	end
 end
 circle_center:addEventListener( "touch", startDrag )
 ------------------------------------------------------
 ---gameフラグ
-push=nill;
-hashi=nill;
-var=nill;
+push=null;
+hashi=null;
+var=null;
 move_test=0;
 
 ----生成を止める
@@ -146,7 +145,7 @@ local sliderListener = function( event )
 
 	print( "Slider at " .. value .. "%" )
 	move_test=(value-50)/10
-	if(var==nill)then
+	if(var==null)then
 		var=true;
 	end
 end
@@ -199,16 +198,15 @@ local function onTimeEvent( event )
 -----rane速度の調節
 
 group.move()
-
-rane.x=  rane.x+move_test;
-if(move_test<0)then
-	if(rane.x<-_W/2)then
-		rane.x=0;
+	rane.x=  rane.x+move_test;
+	if(move_test<0)then
+		if(rane.x<-_W/2)then
+			rane.x=0;
+		end
+		else if(rane.x>_W+_W/2)then
+			rane.x=0;
+		end
 	end
-	else if(rane.x>_W+_W/2)then
-		rane.x=0;
-	end
-end
 end
 
 
@@ -217,8 +215,7 @@ timer.performWithDelay(10, onTimeEvent, 0 )
 
 
 function set_next_dish(event)
-
-	--一定の感覚というルールも作れるかも
+	--一定の間隔というルールも作れるかも
 	random_dish()
 	print("dish_num= "..dish_num)
 end
@@ -226,7 +223,11 @@ push=true
 function check_rane(event)
 	if(push==true)then
 		push=false
-		timer.performWithDelay( 100, set_next_dish, 1)
+
+		if(move_test<-0.1)then
+			print(move_test)
+			timer.performWithDelay( 1000+move_test*200, set_next_dish, 1)
+		end
 	end
 end
 
@@ -255,11 +256,10 @@ function startGame(event)
 		move_test=-0.1
 		push=true
 	end
-	if(hashi==nill)then
-	var=true
+	if(hashi==null)then
+		var=true
 	end
 	hashi=true;
-	
 end
 
 --箸

@@ -1,13 +1,13 @@
 --
 -- Project: ShushiGame
--- Description: 
+-- Description:
 --
 -- Version: 1.0
 -- Managed with http://CoronaProjectManager.com
 --
 -- Copyright 2013 . All Rights Reserved.
 --
-	
+
 --マルチタッチ対応
 system.activate( "multitouch" )
 
@@ -55,13 +55,13 @@ group = display.newGroup()
 move_test=0;
 dish_num=0
 ---------------------------	fly object
-local  army_fly=display.newImageRect ( "fly.png",circlesize*2, circlesize*2)
-army_fly.x,army_fly.y=100,200
+-- local  army_fly=display.newImageRect ( "fly.png",circlesize*2, circlesize*2)
+-- army_fly.x,army_fly.y=100,200
 
-army_fly.rotation=100
-physics.addBody (army_fly,dish_Body)	
+-- army_fly.rotation=100
+-- physics.addBody (army_fly,dish_Body)
 
-group:insert(army_fly)
+-- group:insert(army_fly)
 
 
 --------------------------------------------------------
@@ -172,7 +172,7 @@ local random_dish = function()
 end
 
 --グループの各円を塗りつぶす
-for i=1, group.numChildren do 
+for i=1, group.numChildren do
 	group[i]:setFillColor(math.random(255), math.random(255), math.random(255))
 	physics.addBody ( group[i],dish_Body)
 
@@ -182,7 +182,7 @@ end
 ------------------------------------------------------------------------
 ----groupに追加することで，rane上に置くと流れるようになる
 group.move=function ()
-for i=1, group.numChildren do 
+for i=1, group.numChildren do
 
 	if(group[i].y<(_H/5)*1.5) then
 		if(group[i].y>(_H/5)*0.5)then
